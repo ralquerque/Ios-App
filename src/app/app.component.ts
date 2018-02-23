@@ -9,9 +9,9 @@ import { HomePage } from '../pages/home/home';
 import { LoginProvider } from '../pages/login-provider/loginProvider';
 
 @Component({
-  templateUrl: 'app.html'
+ templateUrl: 'app.html'
+  //templateUrl: '../pages/login/login.html'
   
-  // templateUrl: 'login.html'
 })
 export class MyApp {
 
@@ -24,15 +24,6 @@ export class MyApp {
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
     platform.ready().then(() => {
-
-   
-
-      /*
-        if(this.logeo){
-      
-          this.rootPage = HomePage;
-         
-      }*/
 
       statusBar.styleDefault();
       splashScreen.hide();

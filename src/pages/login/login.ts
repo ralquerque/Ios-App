@@ -6,6 +6,7 @@ import { HomePage } from '../home/home';
 import { LoginProvider } from '../login-provider/loginProvider';
 import { Dialogs } from '@ionic-native/dialogs';
 import { Storage } from '@ionic/storage';
+import { empty } from 'rxjs/Observer';
 //import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 
@@ -78,28 +79,29 @@ export class LoginPage {
 
     console.log('ionViewDidLoad LoginPage');
 
-    console.log("User logging " + this.nombre + "\n" + this.clave);
+    
 
   }
 
 
 
-  login() {
-
+  public login() {
+    console.log("Metodo Login");
     let nombre: string;
     let clave: string;
+    let logeo: number;
 
-    this.storage.get('nombre').then((val) => {
-      console.log('nombre ------- ', val);
-      nombre = val;
-    });
-    this.storage.get('clave').then((val) => {
-      console.log('clave ----- ', val);
-      clave = val;
+    this.loginService.verificar().subscribe((res) => {
+      console.log(res);
+      logeo = res.success;
+      nombre = res.nombre;
+      clave = res.clave;
     });
 
-    if (nombre === "" || nombre === null || clave === "" || clave === null) {
-      console.log("clave por defecto");
+
+
+    if (logeo === 1) {
+     
       this.navCtrl.setRoot(HomePage,
         {
           nombre: nombre,
@@ -109,16 +111,8 @@ export class LoginPage {
           animate: true
         });
 
-      this.storage.set('nombre', 'admin');
-      this.storage.set('clave', 'admin');
-    
-
     } else {
 
-
-      console.log('paso por aqui');
-      
-      console.log('metodo login', this.nombre, this.clave);
       this.loginService.login(this.nombre, this.clave).subscribe((res) => {
 
         console.log(res);
@@ -137,17 +131,17 @@ export class LoginPage {
 
         } else {
 
-          this.dialogs.alert('Hello world')
+          this.dialogs.alert('Credenciales Invalidas')
             .then(() => console.log('Dialog dismissed'))
             .catch(e => console.log('Error displaying dialog', e));
 
-            alert("te equivocaste cara monda");
         }
 
       });
 
     }
   }
+
 
 
 
